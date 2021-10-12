@@ -23,7 +23,7 @@ public class ItemController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Item create(@RequestBody Item item){
-        Item newItem = ItemFactory.build(item.getItemName(), item.getItemType(), item.getItemPrice());
+        Item newItem = ItemFactory.build(item.getItemName(), item.getItemType(), item.getItemPrice(), item.getItemStock());
         return itemService.create(newItem);
     }
 
