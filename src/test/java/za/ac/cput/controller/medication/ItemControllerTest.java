@@ -24,12 +24,18 @@ class ItemControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+    private HttpHeaders httpHeaders = new HttpHeaders();
     private final String itemURL = "http://localhost:8080/item";
+
+    private String username = "user";
+    private String password = "password";
 
     @Test
     void a_createItem1(){
         String url = itemURL + "/create";
-        ResponseEntity<Item> responseEntity = restTemplate.postForEntity(url, item1, Item.class);
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Item> httpEntity = new HttpEntity<>(item1, httpHeaders);
+        ResponseEntity<Item> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Item.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         item1 = responseEntity.getBody();
@@ -40,7 +46,9 @@ class ItemControllerTest {
     @Test
     void b_createItem2(){
         String url = itemURL + "/create";
-        ResponseEntity<Item> responseEntity = restTemplate.postForEntity(url, item2, Item.class);
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Item> httpEntity = new HttpEntity<>(item2, httpHeaders);
+        ResponseEntity<Item> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Item.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         item2 = responseEntity.getBody();
@@ -51,7 +59,9 @@ class ItemControllerTest {
     @Test
     void c_createItem3(){
         String url = itemURL + "/create";
-        ResponseEntity<Item> responseEntity = restTemplate.postForEntity(url, item3, Item.class);
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Item> httpEntity = new HttpEntity<>(item3, httpHeaders);
+        ResponseEntity<Item> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Item.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         item3 = responseEntity.getBody();
@@ -61,9 +71,12 @@ class ItemControllerTest {
 
     @Test
     void d_readItem(){
+        Item i = null;
         String url = itemURL + "/read/" +item2.getItemID();
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Item> request = new HttpEntity<>(i, httpHeaders);
         System.out.println("Url used to read the item: " + url);
-        ResponseEntity<Item> responseCreate = restTemplate.getForEntity(url, Item.class);
+        ResponseEntity<Item> responseCreate = restTemplate.postForEntity(url, request, Item.class);
         assertEquals(item2.getItemID(), responseCreate.getBody().getItemID());
 
     }
@@ -72,9 +85,11 @@ class ItemControllerTest {
     void e_updateItem(){
         Item updatedItem = new Item.Builder().copy(item1).itemPrice(70).builder();
         String url = itemURL + "/update";
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Item> httpEntity = new HttpEntity<>(updatedItem, httpHeaders);
         System.out.println("Url used to update the item: " + url);
         System.out.println("Updated Item: "+ updatedItem);
-        ResponseEntity<Item> responseUpdate = restTemplate.postForEntity(url, updatedItem, Item.class);
+        ResponseEntity<Item> responseUpdate = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Item.class);
         assertNotNull(responseUpdate.getBody());
     }
 
