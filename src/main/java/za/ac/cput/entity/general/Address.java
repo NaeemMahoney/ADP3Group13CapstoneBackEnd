@@ -13,6 +13,10 @@ import javax.persistence.Id;
     private String suburb;
     private String postalCode;
 
+    public Address(){
+
+    }
+
     public Address(Builder builder)
     {
 
