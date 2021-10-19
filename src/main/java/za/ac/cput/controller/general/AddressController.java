@@ -3,6 +3,7 @@ package za.ac.cput.controller.general;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import za.ac.cput.entity.general.Address;
 import za.ac.cput.factory.general.AddressFactory;
 import za.ac.cput.services.general.AddressService;
 
