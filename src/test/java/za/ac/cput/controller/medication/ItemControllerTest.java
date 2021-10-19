@@ -18,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ItemControllerTest {
-    private static Item item1 = ItemFactory.build("Gavascon", "Medicine", 80);
-    private static Item item2 = ItemFactory.build("Panado", "Pills", 60);
-    private static Item item3 = ItemFactory.build("E45", "Cream", 100);
+    private static Item item1 = ItemFactory.build("Gavascon", "Medicine", 80, 50);
+    private static Item item2 = ItemFactory.build("Panado", "Pills", 60, 100);
+    private static Item item3 = ItemFactory.build("E45", "Cream", 100, 40);
 
     @Autowired
     private TestRestTemplate restTemplate;
