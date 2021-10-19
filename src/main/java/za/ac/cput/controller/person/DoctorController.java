@@ -49,9 +49,13 @@ public class DoctorController {
 
     @GetMapping ("/getall")
     public Set<Doctor> getAll(){
-
         return doctorService.getAll();
     }
+
+//    @GetMapping("/getallwitha")
+//    public Set<Doctor> getallwitha(){
+//        return DoctorService.getAllDoctorsStartWithA();
+//    }
 
 
 }

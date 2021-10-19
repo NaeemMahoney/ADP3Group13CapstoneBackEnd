@@ -6,4 +6,5 @@ import java.util.Set;
 
 public interface IDoctorService extends IService<Doctor, String>{
     public Set<Doctor> getAll();
+    //public Doctor getDoctorId(String id);
 }

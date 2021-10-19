@@ -36,7 +36,7 @@ public class Doctor implements Serializable {
     @Override
     public String toString() {
         return "Builder{" +
-                "doctorNumber='" + id    + '\'' +
+                "doctorID='" + id    + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
@@ -102,7 +102,7 @@ public class Doctor implements Serializable {
             return new Doctor(this ) ;
         }
 
-        public Builder copy(Doctor doctor){
+        public  Builder copy(Doctor doctor){
             this.id = doctor.id;
             this.firstName = doctor.firstName;
             this.lastName = doctor.lastName;
