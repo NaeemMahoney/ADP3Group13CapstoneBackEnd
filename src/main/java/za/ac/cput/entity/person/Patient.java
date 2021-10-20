@@ -87,9 +87,9 @@ public class Patient {
     public String toString() {
         return "Patient{" +
                 "patientNumber='" + patientNumber + '\'' +
-                "addressNumber='" + addressNumber + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", lastName='" + lastName+ '\''+
+                "addressNumber='" + addressNumber + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
                 '}';
     }
