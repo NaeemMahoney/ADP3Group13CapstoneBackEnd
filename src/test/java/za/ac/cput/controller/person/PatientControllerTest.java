@@ -25,15 +25,15 @@ class PatientControllerTest {
     Address address1 = AddressFactory.build("20669","Koyini",
             "Nomzamo","7140");
     private Patient patient1 = PatientFactory.build("Sipho","Manisi",
-            "0830765321",address1.getAddressNumber());
+            address1.getAddressNumber(),"0830765321");
     Address address2 = AddressFactory.build("20679","Koyini",
             "Nomzamo","7140");
     private Patient patient2 = PatientFactory.build("Vuyo","Thwala",
-            "0730925421",address2.getAddressNumber());
+            address2.getAddressNumber(),"0730925421");
     Address address3 = AddressFactory.build("29","Milton Street",
             "Strand","7140");
     private Patient patient3 = PatientFactory.build("Johnny","Bravo",
-            "0633568021",address3.getAddressNumber());
+            address3.getAddressNumber(),"0633568021");
     @Autowired
     private TestRestTemplate restTemplate;
     private HttpHeaders httpHeaders = new HttpHeaders();
