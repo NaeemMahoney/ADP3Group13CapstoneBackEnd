@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import za.ac.cput.entity.general.Address;
+import za.ac.cput.entity.medication.Item;
 import za.ac.cput.entity.person.Patient;
 import za.ac.cput.factory.general.AddressFactory;
 import za.ac.cput.factory.person.PatientFactory;
@@ -44,8 +45,9 @@ class PatientControllerTest {
     void a_createPatientOne() {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
-        HttpEntity<Patient> httpEntity = new HttpEntity<>(patient1, httpHeaders);
-        ResponseEntity<Patient> responseEntity = testRestTemplate.postForEntity(url, httpEntity, Patient.class);
+        HttpEntity<Patient> httpEntityCreate1 = new HttpEntity<>(patient1, httpHeaders);
+        ResponseEntity<Patient> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST,
+                httpEntityCreate1, Patient.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         patient1 = responseEntity.getBody();
@@ -56,8 +58,9 @@ class PatientControllerTest {
     void b_createPatientTwo() {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
-        HttpEntity<Patient> httpEntity = new HttpEntity<>(patient2, httpHeaders);
-        ResponseEntity<Patient> responseEntity = testRestTemplate.postForEntity(url, httpEntity, Patient.class);
+        HttpEntity<Patient> httpEntityCreate2 = new HttpEntity<>(patient2, httpHeaders);
+        ResponseEntity<Patient> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST,
+                httpEntityCreate2, Patient.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         patient2 = responseEntity.getBody();
@@ -68,31 +71,33 @@ class PatientControllerTest {
     void c_createPatientThree() {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
-        HttpEntity<Patient> httpEntity = new HttpEntity<>(patient3, httpHeaders);
-        ResponseEntity<Patient> responseEntity = testRestTemplate.postForEntity(url, httpEntity, Patient.class);
+        HttpEntity<Patient> httpEntityCreate3 = new HttpEntity<>(patient3, httpHeaders);
+        ResponseEntity<Patient> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST,
+                httpEntityCreate3, Patient.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
         patient3 = responseEntity.getBody();
         System.out.println("New Patient: "+patient3);
-        assertEquals(patient2.getPatientNumber(), responseEntity.getBody().getPatientNumber());
+        assertEquals(patient3.getPatientNumber(), responseEntity.getBody().getPatientNumber());
     }
 
     @Test
     void d_read() {
-        String url = patientURL + "/read/" +patient1.getPatientNumber();
+        String url = patientURL + "/read/" +patient2.getPatientNumber();
         httpHeaders.setBasicAuth(username, password);
-        HttpEntity<Patient> request = new HttpEntity<>(null, httpHeaders);
-        ResponseEntity<Patient> responseCreate = testRestTemplate.postForEntity(url, request, Patient.class);
-        assertEquals(patient1.getPatientNumber(), responseCreate.getBody().getPatientNumber());
+        HttpEntity<Item> httpEntityRead = new HttpEntity<>(null, httpHeaders);
+        ResponseEntity<Patient> responseCreate = testRestTemplate.postForEntity(url, httpEntityRead, Patient.class);
+        assertEquals(patient2.getPatientNumber(), responseCreate.getBody().getPatientNumber());
     }
 
     @Test
     void e_update() {
-        Patient updatedPatient = new Patient.Builder().copy(patient1).setFirstName("Siphosethu").build();
+        Patient updatedPatient = new Patient.Builder().copy(patient1).setFirstName("siphosethu").build();
         String url = patientURL + "/update";
         httpHeaders.setBasicAuth(username, password);
-        HttpEntity<Patient> httpEntity = new HttpEntity<>(updatedPatient, httpHeaders);
-        ResponseEntity<Patient> responseUpdate = testRestTemplate.exchange(url, HttpMethod.POST, httpEntity, Patient.class);
+        HttpEntity<Patient> httpEntityUpdate = new HttpEntity<>(updatedPatient, httpHeaders);
+        System.out.println("Updated Patient: "+ updatedPatient);
+        ResponseEntity<Patient> responseUpdate = testRestTemplate.exchange(url, HttpMethod.POST, httpEntityUpdate, Patient.class);
         assertNotNull(responseUpdate.getBody());
     }
 
