@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PatientService implements iPatientServices{
+
     private static PatientService patientService = null;
 
     @Autowired
@@ -22,7 +23,8 @@ public class PatientService implements iPatientServices{
 
     @Override
     public Patient read(String patientNumber){
-        return this.patientRepository.findById(patientNumber).orElse(null);
+        return this.patientRepository.findById(patientNumber)
+                .orElse(null);
     }
 
     @Override

@@ -35,7 +35,7 @@ class PatientControllerTest {
     private Patient patient3 = PatientFactory.build("Johnny","Bravo",
             "0633568021",address3.getAddressNumber());
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate restTemplate;
     private HttpHeaders httpHeaders = new HttpHeaders();
     private final String patientURL = "http://localhost:8080/patient";
 
@@ -46,7 +46,7 @@ class PatientControllerTest {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntityCreate1 = new HttpEntity<>(patient1, httpHeaders);
-        ResponseEntity<Patient> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST,
+        ResponseEntity<Patient> responseEntity = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntityCreate1, Patient.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
@@ -59,7 +59,7 @@ class PatientControllerTest {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntityCreate2 = new HttpEntity<>(patient2, httpHeaders);
-        ResponseEntity<Patient> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST,
+        ResponseEntity<Patient> responseEntity = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntityCreate2, Patient.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
@@ -72,7 +72,7 @@ class PatientControllerTest {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntityCreate3 = new HttpEntity<>(patient3, httpHeaders);
-        ResponseEntity<Patient> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST,
+        ResponseEntity<Patient> responseEntity = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntityCreate3, Patient.class);
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
@@ -86,7 +86,7 @@ class PatientControllerTest {
         String url = patientURL + "/read/" +patient2.getPatientNumber();
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Item> httpEntityRead = new HttpEntity<>(null, httpHeaders);
-        ResponseEntity<Patient> responseCreate = testRestTemplate.postForEntity(url, httpEntityRead, Patient.class);
+        ResponseEntity<Patient> responseCreate = restTemplate.postForEntity(url, httpEntityRead, Patient.class);
         assertEquals(patient2.getPatientNumber(), responseCreate.getBody().getPatientNumber());
     }
 
@@ -97,14 +97,14 @@ class PatientControllerTest {
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntityUpdate = new HttpEntity<>(updatedPatient, httpHeaders);
         System.out.println("Updated Patient: "+ updatedPatient);
-        ResponseEntity<Patient> responseUpdate = testRestTemplate.exchange(url, HttpMethod.POST, httpEntityUpdate, Patient.class);
+        ResponseEntity<Patient> responseUpdate = restTemplate.exchange(url, HttpMethod.POST, httpEntityUpdate, Patient.class);
         assertNotNull(responseUpdate.getBody());
     }
 
     @Test
     void f_delete() {
         String url = patientURL + "/delete/" + patient1.getPatientNumber();
-        testRestTemplate.delete(url);
+        restTemplate.delete(url);
     }
 
     @Test
@@ -112,7 +112,7 @@ class PatientControllerTest {
         String url = patientURL + "/getall";
         HttpHeaders header = new HttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>(null, header);
-        ResponseEntity<String> responseGetAll = testRestTemplate.withBasicAuth(username, password).exchange(url, HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> responseGetAll = restTemplate.withBasicAuth(username, password).exchange(url, HttpMethod.GET, httpEntity, String.class);
         System.out.println("All patients are:\n"+responseGetAll.getBody());
     }
 }
