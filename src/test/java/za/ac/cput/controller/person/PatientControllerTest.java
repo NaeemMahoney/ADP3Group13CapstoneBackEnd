@@ -1,7 +1,9 @@
 package za.ac.cput.controller.person;
 
 
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -15,9 +17,10 @@ import za.ac.cput.factory.general.AddressFactory;
 import za.ac.cput.factory.person.PatientFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PatientControllerTest {
+
     Address address1 = AddressFactory.build("20669","Koyini",
             "Nomzamo","7140");
     private Patient patient1 = PatientFactory.build("Sipho","Manisi",
@@ -38,7 +41,7 @@ class PatientControllerTest {
     private String username = "user";
     private String password = "password";
     @Test
-    void createPatientOne() {
+    void a_createPatientOne() {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntity = new HttpEntity<>(patient1, httpHeaders);
@@ -50,7 +53,7 @@ class PatientControllerTest {
         assertEquals(patient1.getPatientNumber(), responseEntity.getBody().getPatientNumber());
     }
     @Test
-    void createPatientTwo() {
+    void b_createPatientTwo() {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntity = new HttpEntity<>(patient2, httpHeaders);
@@ -62,7 +65,7 @@ class PatientControllerTest {
         assertEquals(patient2.getPatientNumber(), responseEntity.getBody().getPatientNumber());
     }
     @Test
-    void createPatientThree() {
+    void c_createPatientThree() {
         String url = patientURL + "/create";
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> httpEntity = new HttpEntity<>(patient3, httpHeaders);
@@ -75,7 +78,7 @@ class PatientControllerTest {
     }
 
     @Test
-    void read() {
+    void d_read() {
         String url = patientURL + "/read/" +patient1.getPatientNumber();
         httpHeaders.setBasicAuth(username, password);
         HttpEntity<Patient> request = new HttpEntity<>(null, httpHeaders);
@@ -84,7 +87,7 @@ class PatientControllerTest {
     }
 
     @Test
-    void update() {
+    void e_update() {
         Patient updatedPatient = new Patient.Builder().copy(patient1).setFirstName("Siphosethu").build();
         String url = patientURL + "/update";
         httpHeaders.setBasicAuth(username, password);
@@ -94,13 +97,13 @@ class PatientControllerTest {
     }
 
     @Test
-    void delete() {
+    void f_delete() {
         String url = patientURL + "/delete/" + patient1.getPatientNumber();
         testRestTemplate.delete(url);
     }
 
     @Test
-    void getPatients() {
+    void g_getPatients() {
         String url = patientURL + "/getall";
         HttpHeaders header = new HttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>(null, header);
