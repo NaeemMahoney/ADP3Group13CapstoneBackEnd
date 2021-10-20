@@ -14,6 +14,7 @@ public class AppointmentFactory {
     {
         String appointmentID = GenericHelper.IDGenerator();
 
+
         Appointment appointment = new Appointment.Builder()
                 .setAppointmentID(appointmentID)
                 .setDate(date)

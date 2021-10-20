@@ -1,4 +1,9 @@
 package za.ac.cput.controller.general;
+/* AppointmentControllerTest.java
+   Test class for controllers
+   Author: Nolusindiso Makosa (219023557)
+   Due Date: 20 October 2021
+*/
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,65 +20,66 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppointmentControllerTest {
     private static Appointment appointment = AppointmentFactory.build("20 November 2021", "14:30PM",
             "COVID Test", "P10NM", "D01MM", "R02LM");
+    private static  Appointment appointment1 = AppointmentFactory.build("29 October", "13:00PM", "Fetch Results",
+            "P10NM","D123MM", "R001JK" );
 
     @Autowired
     private TestRestTemplate restTemplate;
+    private HttpHeaders httpHeaders = new HttpHeaders();
     private final String baseURL = "http://localhost:8080/appointment";
 
     private String username = "user";
     private String password = "password";
 
     @Test
-    void a_create() {
+    void a_create01() {
         String url = baseURL + "/create";
-       ResponseEntity<Appointment> postResponse = restTemplate
-               .withBasicAuth("user", "password")
-               .postForEntity(url, appointment, Appointment.class);
-        assertNotNull(postResponse);
-        assertNotNull(postResponse.getBody());
-        assertEquals(postResponse.getStatusCode(), HttpStatus.OK);
-        appointment = postResponse.getBody();
-        System.out.println("New added appointment: "+appointment);
-        assertEquals(appointment.getAppointmentID(), postResponse.getBody().getAppointmentID());
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Appointment> httpEntity = new HttpEntity<>(appointment, httpHeaders);
+        ResponseEntity<Appointment> responseEntity = restTemplate.exchange(url,HttpMethod.POST,httpEntity, Appointment.class);
+        assertNotNull(responseEntity);
+        assertNotNull(responseEntity.getBody());
+        appointment = responseEntity.getBody();
+        System.out.println("Added new Appointment " + appointment);
+        assertEquals(appointment.getAppointmentID(), responseEntity.getBody().getAppointmentID());
     }
 
-//    @Test
-//    @Disabled
-//    void b_create() {
-//        String url = baseURL + "/create";
-//        httpHeaders.setBasicAuth(username, password);
-//        HttpEntity<Appointment> httpEntity = new HttpEntity<>(appointment1, httpHeaders);
-//        ResponseEntity<Appointment> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Appointment.class);
-//        assertNotNull(responseEntity);
-//        assertNotNull(responseEntity.getBody());
-//        appointment1 = responseEntity.getBody();
-//        System.out.println("New added appointment: "+appointment1);
-//        assertEquals(appointment1.getAppointmentID(), responseEntity.getBody().getAppointmentID());
-//    }
+    @Test
+    void b_create02() {
+        String url = baseURL + "/create";
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Appointment> httpEntity = new HttpEntity<>(appointment1, httpHeaders);
+        ResponseEntity<Appointment> responseEntity = restTemplate.exchange(url,HttpMethod.POST,httpEntity, Appointment.class);
+        assertNotNull(responseEntity);
+        assertNotNull(responseEntity.getBody());
+        appointment1 = responseEntity.getBody();
+        System.out.println("Added new Appointment " + appointment1);
+        assertEquals(appointment1.getAppointmentID(), responseEntity.getBody().getAppointmentID());
+}
 
 
     @Test
     void c_read() {
-        String url = baseURL + "/read/" + appointment.getAppointmentID();
-        System.out.println("URL: " + url);
-        ResponseEntity<Appointment> response = restTemplate
-                .withBasicAuth("user", "password")
-                .getForEntity(url, Appointment.class);
-        assertEquals(appointment.getAppointmentID(), response.getBody().getAppointmentID());
-
-    }
+        Appointment a = null;
+        String url = baseURL + "/read/" +appointment1.getAppointmentID();
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Appointment> request = new HttpEntity<>(a, httpHeaders);
+        System.out.println("URL to read: " + url);
+        System.out.println("Read new appointment: " + appointment1);
+        ResponseEntity<Appointment> responseCreate = restTemplate.postForEntity(url, request, Appointment.class);
+        assertNotNull(appointment1.getAppointmentID(), responseCreate.getBody().getAppointmentID());
+}
 
     @Test
-    @Disabled
-    void d_update() {
-        Appointment update = new Appointment.Builder().copy(appointment).setDate("08 December 2021").setTime("13:00").setReason("Fetch Results")
-                .setPatientNumber("P12MM").setDoctorNumber("D01NM").setReceptionistNumber("R002MN").build();
-        String url = baseURL + "/update/";
-        System.out.println("Appointment to update URL " + url);
-        System.out.println("Updated appointment: "+ update);
-        ResponseEntity<Appointment> response = restTemplate
-                .withBasicAuth("user", "password")
-                .postForEntity(url, update, Appointment.class);
+       void d_update() {
+        Appointment update = new Appointment.Builder().copy(appointment).setDate("13 November 2021").setTime("13:00PM").build();
+        String url = baseURL + "/update";
+        httpHeaders.setBasicAuth(username, password);
+        HttpEntity<Appointment> httpEntity = new HttpEntity<>(update, httpHeaders);
+        System.out.println("Url used to update appointment: " + url);
+        System.out.println("Appointment updated: "+ update);
+        ResponseEntity<Appointment> responseUpdate = restTemplate.exchange(url, HttpMethod.POST, httpEntity,Appointment.class);
+        assertNotNull(responseUpdate.getBody());
     }
 
     @Test
@@ -86,7 +92,7 @@ class AppointmentControllerTest {
 
     @Test
     void e_getAll(){
-        String url = baseURL + "/getall";
+        String url = baseURL + "/getAll/";
         HttpHeaders header = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(null, header);
         ResponseEntity<String> response = restTemplate

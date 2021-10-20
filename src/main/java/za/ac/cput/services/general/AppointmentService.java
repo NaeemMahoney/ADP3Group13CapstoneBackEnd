@@ -1,4 +1,9 @@
 package za.ac.cput.services.general;
+/* AppointmentService.java
+   Service class for appointment
+   Author: Nolusindiso Makosa (219023557)
+   Due Date: 20 October 2021
+*/
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,14 +51,5 @@ public class AppointmentService implements IAppointmentService{
         return this.repository.findAll().stream().collect(Collectors.toSet());
     }
 
-   /* @Override
-    public Appointment getAppointmentByReason(String reason) {
 
-        return null;
-    }
-
-    @Override
-    public Appointment getAppointmentByDate(String date) {
-        return null;
-    }*/
 }

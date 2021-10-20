@@ -1,4 +1,9 @@
 package za.ac.cput.controller.general;
+/* AppointmentController.java
+   controller class for appointment
+   Author: Nolusindiso Makosa (219023557)
+   Due Date: 20 October 2021
+*/
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
