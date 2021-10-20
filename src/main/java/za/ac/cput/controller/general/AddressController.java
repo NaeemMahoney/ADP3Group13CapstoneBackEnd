@@ -1,3 +1,4 @@
+ main
 package za.ac.cput.controller.general;
 
 
@@ -43,3 +44,4 @@ public class AddressController
         return addressService.getAll();
     }
 }
+
